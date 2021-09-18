@@ -17,11 +17,11 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true}));
 
-app.get("/", (req, res) => {
-    res.json({mesage: "Hello World!"});
-});
-
 setupContactRoutes(app);
+
+app.get("/", (req, res) => {
+    res.json({message: "Hello World!"});
+});
 
 app.use((req, res, next) => {
     next(new BadRequestError(404, "Resource not found"));
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     console.log(err);
     res.status(err.statusCode || 500).json({
-        mesage: err.mesage || "Internal Sever Error",
+        message: err.message || "Internal Sever Error",
     });
 });
 
