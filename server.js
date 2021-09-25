@@ -17,6 +17,17 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true}));
 
+const db = require("./app/models");
+
+db.mongoose.connect(config.db.url)
+    .then(() => {
+        console.log("Connected to the database!");
+    })
+    .catch((error) => {
+        console.log("Cannot connect to the database!", error);
+        process.exit();
+    });
+
 // simple route
 app.get("/", (req, res) => {
     res.json({message: "Welcome to contact book application."});
