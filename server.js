@@ -11,17 +11,18 @@ var corsOptions = {
     origin: "http://localhost:8081",
 }
 
-app.use(cors(corsOptions));
+app.use(cors({ origin: config.app.origins }));
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true}));
 
-setupContactRoutes(app);
-
+// simple route
 app.get("/", (req, res) => {
-    res.json({message: "Hello World!"});
+    res.json({message: "Welcome to contact book application."});
 });
+
+setupContactRoutes(app);
 
 app.use((req, res, next) => {
     next(new BadRequestError(404, "Resource not found"));
@@ -34,6 +35,7 @@ app.use((err, req, res, next) => {
     });
 });
 
+// set port, listen for requests
 const PORT = config.app.port;
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}.`);
